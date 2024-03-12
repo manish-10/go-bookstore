@@ -1,0 +1,47 @@
+package models
+
+import (
+	"github.com/jinzhu/gorm"
+	"github.com/manish-10/go-bookstore/config"
+)
+
+var db *gorm.DB
+
+type Book struct {
+	gorm.Model
+	Name        string  `gorm:""json:"name"`
+	Author      string  `json:"author"`
+	Publication string  `json:"publication"`
+	Description string  `json:"description"`
+	Price       float64 `json:"price"`
+}
+
+func init() {
+	config.ConnectDB()
+	db = config.GetDB()
+	db.AutoMigrate(&Book{})
+}
+
+func (data *Book) CreateBook() *Book {
+	db.NewRecord(data)
+	db.Create(&data)
+	return data
+}
+
+func GetAllBooks() []Book {
+	var Books []Book
+	db.Find(&Books)
+	return Books
+}
+
+func GetBookById(ID int64) (*Book, *gorm.DB) {
+	var getBook Book
+	db := db.Where("ID=?", ID).Find(&getBook)
+	return &getBook, db
+}
+
+func DeleteBook(ID int64) Book {
+	var book Book
+	db.Where("ID=?", ID).Delete(&book)
+	return book
+}
