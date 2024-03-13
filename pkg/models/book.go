@@ -2,18 +2,16 @@ package models
 
 import (
 	"github.com/jinzhu/gorm"
-	"github.com/manish-10/go-bookstore/config"
+	"github.com/manish-10/go-bookstore/pkg/config"
 )
 
 var db *gorm.DB
 
 type Book struct {
 	gorm.Model
-	Name        string  `gorm:""json:"name"`
-	Author      string  `json:"author"`
-	Publication string  `json:"publication"`
-	Description string  `json:"description"`
-	Price       float64 `json:"price"`
+	Name        string `gorm:"" json:"name"`
+	Author      string `json:"author"`
+	Publication string `json:"publication"`
 }
 
 func init() {

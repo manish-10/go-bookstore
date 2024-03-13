@@ -1,6 +1,8 @@
 package config
 
 import (
+	"log"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
@@ -10,10 +12,12 @@ var (
 )
 
 func ConnectDB() {
-	d, err := gorm.Open("mysql", "root:root@123/simplerest?charset=utf8&parseTime=True&loc=Local")
+	d, err := gorm.Open("mysql", "root:root@123@tcp(localhost)/bookstore?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
+		log.Println(err)
 		panic(err)
 	}
+	log.Println("db connected")
 	db = d
 }
 
